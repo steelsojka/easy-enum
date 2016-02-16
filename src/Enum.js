@@ -39,7 +39,7 @@ export default class Enum {
   }
 
   has(key) {
-    return [...this.keys()].indexOf(key) !== -1;
+    return this.hasOwnProperty(key);
   }
 
   inverseOf(value) {

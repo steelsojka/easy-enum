@@ -1,6 +1,6 @@
 {
   "name": "easy-enum",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Enums as easy as can be",
   "main": "index.js",
   "scripts": {

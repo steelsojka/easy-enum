@@ -18,7 +18,7 @@ export default class Enum {
     } else if (enums != null && typeof enums === 'object') {
       for (let key in enums) {
         if (enums.hasOwnProperty(key)) {
-          if ('value' in enums[key]) {
+          if (typeof enums[key] === 'object' && ('value' in enums[key])) {
             this[key] = enums[key].value;
 
             if (enums[key].inverse) {

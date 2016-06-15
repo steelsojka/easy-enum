@@ -1,17 +1,11 @@
 export default class Enum {
   constructor(enums) {
-    Object.defineProperties(this, {
-      _inverseMap: {
-        value: new Map(),
-        writable: false,
-        configurable: true,
-        enumerable: false
-      }
-    });
+    Object.defineProperty(this, '__keys', { value: [] });
 
     if (Array.isArray(enums)) {
       for (let value of enums) {
         if (typeof value === 'string') {
+          this.__keys.push(value);
           this[value] = value;
         }
       }
@@ -20,13 +14,11 @@ export default class Enum {
         if (enums.hasOwnProperty(key)) {
           if (typeof enums[key] === 'object' && ('value' in enums[key])) {
             this[key] = enums[key].value;
-
-            if (enums[key].inverse) {
-              this._inverseMap.set(this[key], enums[key.inverse]);
-            }
           } else {
             this[key] = enums[key];
           }
+
+          this.__keys.push(key);
         }
       }
     }
@@ -35,34 +27,44 @@ export default class Enum {
   }
 
   is(value) {
-    return [...this.values()].indexOf(value) !== -1;
+    for (let val of this.values()) {
+      if (value === val) {
+        return true;
+      }
+    }
+
+    return false;
   }
 
   has(key) {
-    return this.hasOwnProperty(key);
+    return this.__keys.indexOf(key) !== -1;
   }
 
-  inverseOf(value) {
-    return this._inverseMap.has(value) ? this._inverseMap.get(value) : null;
+  toObject() {
+    let result = {};
+
+    for (let key of this.__keys) {
+      result[key] = this[key];
+    }
+
+    return result;
   }
  
   * values() {
-    for (let [key, value] of this.entries()) {
+    for (let [, value] of this.entries()) {
       yield value;
     }
   }
 
   * keys() {
-    for (let [key, value] of this.entries()) {
+    for (let [key] of this.entries()) {
       yield key;
     }
   }
 
   * entries() {
-    for (let key in this) {
-      if (this.hasOwnProperty(key)) {
-        yield [key, this[key]];
-      }
+    for (let key in this.__keys) {
+      yield [key, this[key]];
     }
   }
 

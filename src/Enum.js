@@ -63,7 +63,7 @@ export default class Enum {
   }
 
   * entries() {
-    for (let key in this.__keys) {
+    for (let key of this.__keys) {
       yield [key, this[key]];
     }
   }

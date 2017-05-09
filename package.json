@@ -6,8 +6,9 @@
   "scripts": {
     "clean": "del dist",
     "prebuild": "npm run clean",
-    "build": "tsc",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "build": "tsc -p tsconfig.build.json",
+    "build:test": "tsc -p tsconfig.test.json",
+    "test": "mocha test/**/*.spec.js"
   },
   "keywords": [
     "enums"
@@ -15,7 +16,11 @@
   "author": "Steven Sojka",
   "license": "MIT",
   "devDependencies": {
+    "@types/chai": "^3.5.2",
+    "@types/mocha": "^2.2.41",
+    "chai": "^3.5.0",
     "del-cli": "^0.2.1",
+    "mocha": "^3.3.0",
     "typescript": "^2.3.2"
   },
   "dependencies": {

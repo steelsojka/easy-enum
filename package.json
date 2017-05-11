@@ -5,6 +5,7 @@
   "main": "dist/index.js",
   "typings": "dist/index.d.ts",
   "scripts": {
+    "pretest": "npm run build:test",
     "clean": "del dist",
     "prebuild": "npm run clean",
     "build": "tsc -p tsconfig.build.json",

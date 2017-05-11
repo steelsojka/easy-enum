@@ -1,7 +1,7 @@
 export type EnumConfig = string[] | { [key: string]: ({ value: any }) | string };
 
 export class Enum<T> {
-  constructor(config: EnumConfig) {
+  constructor(config?: EnumConfig) {
     const self = this as any;
 
     if (Array.isArray(config)) {
@@ -21,8 +21,6 @@ export class Enum<T> {
         }
       }
     }
-
-    Object.freeze(this);
   }
 
   is(value: any): value is T {
@@ -40,7 +38,11 @@ export class Enum<T> {
   }
 
   toObject(): { [key: string]: T } {
-    return Object.keys(this).reduce((result, key) => ({ key: (this as any)[key], ...result }), {});
+    return Object.keys(this).reduce((result, key) => ({ [key]: (this as any)[key], ...result }), {});
+  }
+
+  freeze(): void {
+    Object.freeze(this);
   }
 
   * values(): IterableIterator<T> {
